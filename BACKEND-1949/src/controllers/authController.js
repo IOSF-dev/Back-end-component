@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../models/user.js");
+const userModel = require("../models/user.js");
 
 const register = async (req, res) => {
   try {
@@ -32,14 +32,14 @@ const register = async (req, res) => {
       });
     }
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await userModel.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
         message: "El email ya está registrado",
       });
     }
 
-    const user = await User.create({
+    const user = await userModel.create({
       name,
       secondName,
       email,
@@ -72,14 +72,14 @@ const register = async (req, res) => {
   
       if (!email || !password) {
         return res.status(400).json({
-          message: "Email y password obligatorios",
+          message: "Email y contraseña obligatorios",
         });
       }
   
-      const user = await User.findOne({ email });
+      const user = await userModel.findOne({ email });
       if (!user) {
         return res.status(401).json({
-          message: "usuario o contraseña incorrectos",
+          message: "Usuario o contraseña incorrectos",
         });
       }
   
@@ -90,7 +90,7 @@ const register = async (req, res) => {
   
       if (!isValidPassword) {
         return res.status(401).json({
-          message: "credenciales invalidas",
+          message: "Credenciales inválidas",
         });
       }
   
@@ -101,7 +101,7 @@ const register = async (req, res) => {
       );
       
       const refreshToken = jwt.sign(
-        { id: user._id },
+        { id: user._id, role: user.role },
         process.env.JWT_REFRESH_SECRET,
         { expiresIn: "7d" }
       );
@@ -123,5 +123,25 @@ const register = async (req, res) => {
     }
   };
   
+const refreshToken = async (req, res) => {
+  const { refreshToken } = req.body;
 
-module.exports = { register, login };
+  if (!refreshToken) {
+    return res.status(401).json({ message: "Refresh token requerido" });
+  }
+
+  try {
+    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+
+    const newAccessToken = jwt.sign(
+      { id: decoded.id, role: decoded.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "15m" }
+    );
+
+    res.json({ accessToken: newAccessToken });
+  } catch {
+    res.status(403).json({ message: "Refresh token inválido" });
+  }
+}
+module.exports = { register, login, refreshToken };
