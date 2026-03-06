@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.post("/register", register);
 router.post("/login", login);
-router.post("/auth/refresh", refreshToken);
+router.post("/refresh", refreshToken);
 
 module.exports = router;

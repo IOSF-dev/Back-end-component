@@ -1,16 +1,16 @@
 const { deleteUser, getAllUser, editUser } = require("../controllers/userController");
-const adminMiddleware = require("../middlewares/adminMiddleware");
-const authMiddleware = require("../middlewares/authMiddleware");
+const verifyAdmin = require("../middlewares/verifyAdmin");
+const verifyToken = require("../middlewares/verifyToken");
 const express = required("express");
 const router = express.router();
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-router.get("/", authMiddleware, adminMiddleware, getAllUser)
+router.get("/", verifyToken, verifyAdmin, getAllUser)
 
-router.patch("/:id", authMiddleware, adminMiddleware,editUser);
+router.patch("/:id", verifyToken, verifyAdmin,editUser);
 
-router.delete("/:id", authMiddleware, adminMiddleware, deleteUser);
+router.delete("/:id", verifyToken, verifyAdmin, deleteUser);
 
 
 

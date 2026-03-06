@@ -1,16 +1,28 @@
 
 const userModel = require("./models/user.js");
 const getAllUser = async (req, res) => {
-  const users = await userModel.find().select("-password");
-  res.json(users);
+        ///// devolver todos los usuarios
+        try {
+                const allUsers = await userModel.find().select("name lastName email role "); ///allUser es usando el userModel el resultado de .find(all);
+                if (allUsers.length === 0) return res.status(200).send("No hay usuarios");/// si allUsers es 0 ciao
+                res.status(200).send({ status: "Success", data: allUsers });  // si todo va bien codigo 200 y res enviada en "data"=allUsers
+        } catch (error) {
+                res.status(500).send({ status: "Failed", error: error.message });
+        }
 };
 
 
 
 const deleteUser = async (req, res) => {
-  const user = await userModel.findByIdAndDelete(req.params.id);
-  if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
-  res.json({ message: "Usuario eliminado" });
+        try {
+                const { idUser } = req.params;
+                if (!idUser) return res.status(400).send("no hay id a borrar")
+                const idToDelete = await userModel.findByIdAndDelete(idUser);/// funcion delete con coincidencia de id
+                if (!idToDelete) return res.status(404).send("no se que id quieres borrar")
+                res.status(200).send({ status: "Success", message: "Usuario eliminado" });
+        } catch (error) {
+                res.status(500).send({ status: "Failed", error: error.message });
+        }
 }
 const editUser =  async (req, res) => {
   try {
