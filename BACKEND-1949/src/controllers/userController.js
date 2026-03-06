@@ -1,5 +1,5 @@
 
-const userModel = require("./models/user.js");
+const userModel = require("../models/user.js");
 const getAllUser = async (req, res) => {
         ///// devolver todos los usuarios
         try {
@@ -15,7 +15,7 @@ const getAllUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
         try {
-                const { idUser } = req.params;
+                const idUser = req.params.id;
                 if (!idUser) return res.status(400).send("no hay id a borrar")
                 const idToDelete = await userModel.findByIdAndDelete(idUser);/// funcion delete con coincidencia de id
                 if (!idToDelete) return res.status(404).send("no se que id quieres borrar")

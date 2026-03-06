@@ -1,8 +1,8 @@
 const { deleteUser, getAllUser, editUser } = require("../controllers/userController");
 const verifyAdmin = require("../middlewares/verifyAdmin");
 const verifyToken = require("../middlewares/verifyToken");
-const express = required("express");
-const router = express.router();
+const express = require("express");
+const router = express.Router();
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////

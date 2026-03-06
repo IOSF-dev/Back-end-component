@@ -1,11 +1,11 @@
 const express = require("express");
 const verifyToken = require("../middlewares/verifyToken.js");
-const router = express.router;
+const router = express.Router();
 const { meController, editMeController } = require("../controllers/meController.js");
 
-app.get("/", verifyToken, meController)
+router.get("/", verifyToken, meController)
 
-app.patch("/", verifyToken, editMeController);
+router.patch("/", verifyToken, editMeController);
 
 
 module.exports = router;

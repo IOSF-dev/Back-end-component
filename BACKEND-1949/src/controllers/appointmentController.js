@@ -1,4 +1,4 @@
-const appointmentModel = require("./models/Appointment.js");
+const appointmentModel = require("../models/Appointment.js");
 
 
 
@@ -32,13 +32,13 @@ const newAppointment = async (req, res) => {
 
 const findById = async (req, res) => {
   try {
-    const {idUser} = req.params;
+    const idUser = req.params.id;
     if(!idUser) return
   const appointments = await appointmentModel.findById(idUser).sort({ date: 1 });
   res.status(200).send(appointments);
   
   } catch (error) {
-    
+    res.status(500).send(error.message);
   }
   };
 
