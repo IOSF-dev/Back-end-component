@@ -3,7 +3,7 @@ const userModel = require("../models/user.js");
 const getAllUser = async (req, res) => {
         ///// devolver todos los usuarios
         try {
-                const allUsers = await userModel.find().select("name lastName email role "); ///allUser es usando el userModel el resultado de .find(all);
+                const allUsers = await userModel.find().select("name secondName email role "); ///allUser es usando el userModel el resultado de .find(all);
                 if (allUsers.length === 0) return res.status(200).send("No hay usuarios");/// si allUsers es 0 ciao
                 res.status(200).send({ status: "Success", data: allUsers });  // si todo va bien codigo 200 y res enviada en "data"=allUsers
         } catch (error) {

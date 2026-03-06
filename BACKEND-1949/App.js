@@ -1,10 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const authRoutes = require("./src/routes/authRoutes.js");
-const usersRouter = require("./src/routes/userRouter.js")
-const meRouter = require("./src/routes/meRouter.js");
-const appointmentsRouter = require("./src/routes/appointmentsRouter.js");
+const authRouter = require("./src/router/authRouter.js");
+const usersRouter = require("./src/router/userRouter.js")
+const meRouter = require("./src/router/meRouter.js");
+const appointmentsRouter = require("./src/router/appointmentsRouter.js");
 const connectDB = require("./src/DataBase/db.js");
 const app = express();
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -19,7 +19,7 @@ app.use(
 ////////////////////////////////////////////////////////////////////////////////////////
 connectDB();
 ////////////////////////////////////////////////////////////////////////////////////////
-app.use("/auth", authRoutes);
+app.use("/auth", authRouter);
 app.use("/users",usersRouter);
 app.use("/appointments", appointmentsRouter)
 app.use("/me", meRouter);

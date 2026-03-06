@@ -33,8 +33,8 @@ const newAppointment = async (req, res) => {
 const findById = async (req, res) => {
   try {
     const idUser = req.params.id;
-    if(!idUser) return
-  const appointments = await appointmentModel.findById(idUser).sort({ date: 1 });
+    if(!idUser) return res.status(400).send("no hay id");
+  const appointments = await appointmentModel.findById(idUser);
   res.status(200).send(appointments);
   
   } catch (error) {
