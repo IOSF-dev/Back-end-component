@@ -1,9 +1,11 @@
 const express = require("express");
-const { register, login } = require("../controllers/authController.js");
+const { register, login, refreshToken } = require("../controllers/authController.js");
 
 const router = express.Router();
-console.log("AUTH ROUTES CARGADO");
+
 
 router.post("/register", register);
 router.post("/login", login);
+router.post("/refresh", refreshToken);
+
 module.exports = router;

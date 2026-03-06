@@ -1,4 +1,9 @@
-const adminMiddleware = (req, res, next) => {
+
+
+
+
+
+const verifyAdmin = (req, res, next) => {
     if (req.user.role !== "admin") {
       return res.status(403).json({
         message: "Acceso solo para administradores",
@@ -7,5 +12,5 @@ const adminMiddleware = (req, res, next) => {
     next();
   };
   
-  module.exports = adminMiddleware;
+  module.exports = verifyAdmin;
   
